@@ -2,6 +2,10 @@
 ######################
 .DS_Store
 
+# files of IDE or text editor #
+######################
+.vscode
+
 # Everything else    #
 ######################
 node_modules

@@ -32,8 +32,13 @@
   "bugs": {
     "url": "http://github.com/brozeph/simple-socks/issues"
   },
+  "bin": {
+    "simple-socks": "./bin/simple-socks"
+  },
   "dependencies": {
     "binary": "^0.3.0",
+    "minimist": "^1.2.0",
+    "node-autostart": "^3.0.3",
     "put": "0.0.6"
   },
   "devDependencies": {
