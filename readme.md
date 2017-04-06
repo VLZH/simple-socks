@@ -6,8 +6,38 @@ Creates a simple SOCKS5 server and exposes additional SOCKS5 proxy events.
 
 ## Installation
 
-```
+```bash
 npm install simple-socks
+```
+
+```bash
+npm install simple-socks -g
+```
+
+## Command Line Usage
+
+**Example**
+```bash
+simple-socks start --port 1080 --host 0.0.0.0
+```
+
+**Options**
+```
+$ simple-socks --help
+
+Usage: simple-socks [options] [command]
+Commands:
+
+	start               Run SOCKS5 proxy server
+	enable-autostart    Add server to autostart
+	disable-autostart   Remove this server from autostart
+
+Options:
+
+	-h, --help           output usage information
+	-V, --version        output the version number
+	--port <int>         Port of proxy server
+	--host <string>      Host
 ```
 
 ## Example Usage

@@ -12,8 +12,8 @@ var KEY = 'simple-socks',
 
 program
     .version(pkg.version)
-    .option('-p, --port <int>', 'Port of proxy server')
-    .option('-h, --host <string>', 'Host')
+    .option('--port <int>', 'Port of proxy server')
+    .option('--host <string>', 'Host')
 
 var oldOutputHelp = program.outputHelp;
 program.outputHelp = function(){
