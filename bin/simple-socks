@@ -21,7 +21,7 @@ program
     .action(function (env, options) {
         var port = program.port || 1080,
             host = program.host || 'localhost';
-        socks5.createServer().listen(1080, host, function () {
+        socks5.createServer().listen(port, host, function () {
             console.log('SOCKS5 proxy server started on ' + host + ':' + port)
         })
     });
