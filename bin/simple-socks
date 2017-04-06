@@ -3,58 +3,51 @@
 'use strict';
 
 var socks5 = require('../lib/socks5'),
-    autostart = require('node-autostart'),
-    argv_parser = require('minimist');
+    program = require('commander'),
+    Manager = require('autostart-manager'),
+    pkg = require('../package.json');
 
 var KEY = 'simple-socks'
 
-var args = argv_parser(process.argv.slice(2)),
-    action = false,
-    port = args.port || args.p || 1080,
-    host = args.host || args.h || 'localhost';
+program
+    .version(pkg.version)
+    .option('-p, --port <int>', 'Port of proxy server')
+    .option('-h, --host <string>', 'Host')
 
 
+program
+    .command('start')
+    .description('Run SOCKS5 proxy server')
+    .action(function (env, options) {
+        var port = program.port || 1080,
+            host = program.host || 'localhost';
+        socks5.createServer().listen(1080, host, function () {
+            console.log('SOCKS5 proxy server started on ' + host + ':' + port)
+        })
+    });
 
 
-if (args._.includes("start") && !action) {
-    // run server and check required options
-    socks5.createServer().listen(port, host, function () {
-        console.log('SOCKS5 proxy server started on ' + host + ':' + port)
-    })
-    action = true
-}
+program
+    .command('enable-autostart')
+    .description('Add server to autostart')
+    .action(function (env, options) {
+        var port = program.port || 1080,
+            host = program.host || 'localhost';
+        var manager = new Manager({
+            name: 'simple-socks',
+            args: ['start', '--port', port, '--host', host]
+        })
+        manager.enable()
+    });
 
-if (args._.includes("enable-autostart") && !action) {
-    //enable
-    autostart.enableAutostart(KEY, './simple-socks --port' + port + '--host' + host, process.cwd(), function (err) {
-        if (err) console.error(err);
-        console.log("Success adding socks5 server to autostart")
-    })
-    action = true
-}
+program
+    .command('disable-autostart')
+    .description('Remove this server from autostart')
+    .action(function (env, options) {
+        var manager = new Manager({
+            name: 'simple-socks'
+        })
+        manager.disable()
+    });
 
-if (args._.includes("disable-autostart") && !action) {
-    //disable autostart on launch of system
-    autostart.disableAutostart(KEY, function (err) {
-        if (err) console.error(err);
-        console.log("Success disabel autostart this server on launch of system")
-    })
-    action = true
-}
-
-if (args._.includes("help") || args.help) {
-    var l = console.log
-    l(`
-    === simple-socks ===
-    help, --help: Show this information
-    start: Run SOCKS5 proxy server
-    enable-autostart: Add server to autostart (Note that options 'port', 'host' is required)
-    disable-autostart: Remove this server from autostart on launch of system
-    `)
-    action = true
-}
-
-if (!action) {
-    // Launch is incorrect
-    console.log("Launch is incorrect")
-}
+program.parse(process.argv);
