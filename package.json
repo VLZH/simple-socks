@@ -36,7 +36,7 @@
     "simple-socks": "./bin/simple-socks"
   },
   "dependencies": {
-    "autostart-manager": "0.0.3",
+    "autostart-manager": "^1.0.0",
     "binary": "^0.3.0",
     "commander": "^2.9.0",
     "put": "0.0.6"
